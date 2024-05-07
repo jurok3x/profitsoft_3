@@ -1,7 +1,7 @@
-import { createUseStyles } from 'react-jss';
 import classNames from 'classnames';
-import React from 'react';
 import useTheme from 'misc/hooks/useTheme';
+import React from 'react';
+import { createUseStyles } from 'react-jss';
 
 const getClasses = createUseStyles((theme) => ({
   bottomStub: {
@@ -9,7 +9,6 @@ const getClasses = createUseStyles((theme) => ({
   },
   container: {
     background: theme.pageContainer.color.background,
-    display: 'flex',
     height: '100%',
     overflowY: 'auto',
   },

@@ -1,6 +1,6 @@
-import React from 'react';
 import CardMUI from '@mui/material/Card';
 import useTheme from 'misc/hooks/useTheme';
+import React from 'react';
 
 const variants = {
   paper: 'paper',
@@ -26,9 +26,10 @@ function Card({
         display: 'flex',
         flexDirection: 'column',
         gap: `${theme.spacing(2)}px`,
+        margin: `20px 0`,
         padding: disablePaddings
           ? 'none'
-          : `${theme.spacing(2)}px 0px`,
+          : `${theme.spacing(2)}px 10px`,
         transition: 'all 0.2s ease-out',
         width: '100%',
       }}
