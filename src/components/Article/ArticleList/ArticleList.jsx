@@ -1,6 +1,7 @@
 import actionsArticles from 'app/actions/article';
 import Status from "app/constants/status";
 import CircularProgress from 'components/CircularProgress';
+import PageSizeSelect from 'components/PageSizeSelect';
 import Paginator from 'components/Paginator/Paginator';
 import React, { useEffect, useState } from 'react';
 import {
@@ -9,14 +10,26 @@ import {
 } from 'react-redux';
 import ArticleItem from '../ArticleItem/ArticleItem';
 
+import styles from '../style.module.css';
+
 function ArticleList() {
     const dispatch = useDispatch();
     const [currentPage, setCurrentPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
 
     const handleSelectPage = (page) => {
         setCurrentPage(page);
         dispatch(actionsArticles.findArticles({
             page,
+            size: pageSize,
+        }));
+    };
+
+    const handleSelectPageSize = (size) => {
+        setPageSize(size);
+        dispatch(actionsArticles.findArticles({
+            size,
+            page: currentPage,
         }));
     };
 
@@ -42,11 +55,17 @@ function ArticleList() {
                     key={article.id}
                 />
                 ))}
-                <Paginator
-                    totalPages={totalPages}
-                    onPageSelect={handleSelectPage}
-                    currentPage={currentPage}
-                />
+                <div className={styles.page__select}>
+                    <Paginator
+                        totalPages={totalPages}
+                        onPageSelect={handleSelectPage}
+                        currentPage={currentPage}
+                    />
+                    <PageSizeSelect
+                        pageSize={pageSize}
+                        onPageSizeChange={handleSelectPageSize}
+                    />
+                </div>
             </>
             )}
         </>
