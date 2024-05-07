@@ -1,3 +1,4 @@
-.card {
-    color: red;
+.page__select {
+    display: flex;
+    justify-content: space-around;
 }
