@@ -9,12 +9,12 @@ const search = ({ page, size, params }) => {
     } = config;
     return axios.post(`${ARTICLES_SERVICE}/_list`, {
         ...params,
-        page,
+        page: page - 1,
         size,
     }).catch(() => {
         return searchArticles({
             ...params,
-            page,
+            page: page - 1,
             size,
         });
     });
@@ -38,8 +38,7 @@ const handleError = (error) => {
     };
 }
 
-const findArticles = ({ page = 0, size = 10, params } = {}) => (dispatch) => {
-    console.log(`${page} ${size}`);
+const findArticles = ({ page = 1, size = 10, params } = {}) => (dispatch) => {
     dispatch(requestArticles());
     search({ page, size, params })
         .then((articles) => dispatch(receiveArticles(articles)))

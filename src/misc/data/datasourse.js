@@ -78,7 +78,6 @@ class DataSource {
                     }
                 }
             }
-            console.log("true")
             return true;
         });
         return filtered;

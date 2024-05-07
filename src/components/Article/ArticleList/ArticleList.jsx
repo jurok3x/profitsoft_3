@@ -13,10 +13,10 @@ function ArticleList() {
     const dispatch = useDispatch();
     const [currentPage, setCurrentPage] = useState(1);
 
-    const handlePageChange = (event, value) => {
-        setCurrentPage(value);
+    const handleSelectPage = (page) => {
+        setCurrentPage(page);
         dispatch(actionsArticles.findArticles({
-            page: currentPage,
+            page,
         }));
     };
 
@@ -44,7 +44,7 @@ function ArticleList() {
                 ))}
                 <Paginator
                     totalPages={totalPages}
-                    onPageSelect={handlePageChange}
+                    onPageSelect={handleSelectPage}
                     currentPage={currentPage}
                 />
             </>
