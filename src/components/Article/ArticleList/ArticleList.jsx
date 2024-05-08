@@ -16,32 +16,52 @@ import styles from '../style.module.css';
 function ArticleList() {
     const dispatch = useDispatch();
 
-    const [currentPage, setCurrentPage] = useState(() => {
+    const getCurrentPage = () => {
         const storedPage = localStorage.getItem('currentPage');
         return storedPage ? parseInt(storedPage, 10) : 1;
-    });
+    };
 
-    const [pageSize, setPageSize] = useState(() => {
+    const getPageSize = () => {
         const storedPageSize = localStorage.getItem('pageSize');
         return storedPageSize ? parseInt(storedPageSize, 10) : 10;
+    };
+
+    const getFilterParameter = (parameter) => {
+        const storedParameter = localStorage.getItem(parameter);
+        return storedParameter ? storedParameter : '';
+    };
+
+    const [params, setParams] = useState({
+        page: getCurrentPage(),
+        size: getPageSize(),
+        year: getFilterParameter('year'),
+        title: getFilterParameter('title'),
+        field: getFilterParameter('field'),
     });
 
-    const [params, setParams] = useState({});
-
     const handleSelectPage = (page) => {
-        setCurrentPage(page);
+        localStorage.setItem('currentPage', page.toString());
+        setParams({
+            ...params,
+            page
+        });
     };
 
     const handleSelectPageSize = (size) => {
-        setPageSize(size);
+        localStorage.setItem('pageSize', size.toString());
+        setParams({
+            ...params,
+            size,
+            page: 1,
+        });
     };
 
-    const handleSearchParamsChange = (params) => {
-        const newParams = Object.fromEntries(
-            Object.entries(params).filter(([key, value]) => value)
-        );
-        setCurrentPage(1);
-        setParams(newParams);
+    const handleFilterChange = (filter) => {
+        setParams({
+            ...filter,
+            size: 10,
+            page: 1
+        });
     };
 
     const {
@@ -51,21 +71,14 @@ function ArticleList() {
     } = useSelector(({ article }) => article);
 
     useEffect(() => {
-        localStorage.setItem('currentPage', currentPage.toString());
-        localStorage.setItem('pageSize', pageSize.toString());
-        console.log(currentPage)
-        dispatch(actionsArticles.findArticles({
-            size: pageSize,
-            page: currentPage,
-            params,
-        }));
-    }, [currentPage, pageSize, params]);
+        console.log(JSON.stringify(params))
+        dispatch(actionsArticles.findArticles(params));
+    }, [params, dispatch]);
 
     return (
         <>
             <ArticleFilter
-                    params={params}
-                    onFilterChange={handleSearchParamsChange}
+                    onFilterChange={handleFilterChange}
             />
             {status === Status.PENDING ? (
                 <CircularProgress />
@@ -81,10 +94,10 @@ function ArticleList() {
                     <Paginator
                         totalPages={totalPages}
                         onPageSelect={handleSelectPage}
-                        currentPage={currentPage}
+                        currentPage={params.page}
                     />
                     <PageSizeSelect
-                        pageSize={pageSize}
+                        params={params}
                         onPageSizeChange={handleSelectPageSize}
                     />
                 </div>

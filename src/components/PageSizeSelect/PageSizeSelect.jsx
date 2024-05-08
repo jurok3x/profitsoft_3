@@ -5,7 +5,9 @@ import React, { useCallback } from 'react';
 
 import styles from './styles.module.css';
 
-function PageSizeSelect ({ pageSize = 10, onPageSizeChange}) {
+function PageSizeSelect ({ params, onPageSizeChange}) {
+
+    const { size } = params;
 
     const handlePageSizeChanged = useCallback((event) => {
         onPageSizeChange(event.target.value);
@@ -20,7 +22,7 @@ function PageSizeSelect ({ pageSize = 10, onPageSizeChange}) {
                     id="page-size-select"
                     label="Size"
                     onChange={handlePageSizeChanged}
-                    value={pageSize}
+                    value={size}
                 >
                     <MenuItem value={10}>10</MenuItem>
                     <MenuItem value={25}>25</MenuItem>

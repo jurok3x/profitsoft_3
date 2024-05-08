@@ -1,7 +1,7 @@
 
 import { Box, TextField } from '@mui/material';
 import MenuItem from 'components/MenuItem';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 const fields = [
     {
@@ -27,35 +27,39 @@ const fields = [
 ];
 
 function ArticleFilter({ onFilterChange }) {
-    const [title, setTitle] = useState('');
-    const [year, setYear] = useState('');
-    const [field, setField] = useState('');
+    const getFilterParameter = (parameter) => {
+        const storedParameter = localStorage.getItem(parameter);
+        return storedParameter ? storedParameter : '';
+    };
+
+    const [title, setTitle] = useState(getFilterParameter('title'));
+    const [year, setYear] = useState(getFilterParameter('year'));
+    const [field, setField] = useState(getFilterParameter('field'));
 
     const handleTitleChange = useCallback((event) => {
         const newTitle = event.target.value;
         setTitle(newTitle);
-        onParamsChange({ title: newTitle, year, field});
-    }, [ onParamsChange ]);
+        localStorage.setItem('title', newTitle.toString());
+        onFilterChange({ title: newTitle, year, field});
+    }, [ onFilterChange, year, field ]);
 
     const handleFieldChange = useCallback((event) => {
         const newField = event.target.value;
         setField(newField);
-        onParamsChange({ title, year, field: newField});
-    }, [ onParamsChange ]);
+        localStorage.setItem('field', newField.toString());
+        onFilterChange({ title, year, field: newField});
+    }, [ onFilterChange, title, year ]);
 
     const handleYearBlur = useCallback((event) => {
         const newYear = event.target.value;
-        onParamsChange({ title, year: newYear, field });
-    }, [ onParamsChange ]);
+        localStorage.setItem('year', newYear.toString());
+        onFilterChange({ title, year: newYear, field });
+    }, [ onFilterChange, title, field ]);
 
     const handleYearChange = useCallback((event) => {
         const newYear = event.target.value;
         setYear(newYear);
-    }, [ onParamsChange ]);
-
-    useEffect(() => {
-        onFilterChange({ title, year, field});
-    }, []);
+    }, [ ]);
 
     return (
         <Box
