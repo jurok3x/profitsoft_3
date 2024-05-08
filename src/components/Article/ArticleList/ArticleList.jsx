@@ -10,27 +10,38 @@ import {
 } from 'react-redux';
 import ArticleItem from '../ArticleItem/ArticleItem';
 
+import ArticleFilter from '../ArticleFilter';
 import styles from '../style.module.css';
 
 function ArticleList() {
     const dispatch = useDispatch();
-    const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize, setPageSize] = useState(10);
+
+    const [currentPage, setCurrentPage] = useState(() => {
+        const storedPage = localStorage.getItem('currentPage');
+        return storedPage ? parseInt(storedPage, 10) : 1;
+    });
+
+    const [pageSize, setPageSize] = useState(() => {
+        const storedPageSize = localStorage.getItem('pageSize');
+        return storedPageSize ? parseInt(storedPageSize, 10) : 10;
+    });
+
+    const [params, setParams] = useState({});
 
     const handleSelectPage = (page) => {
         setCurrentPage(page);
-        dispatch(actionsArticles.findArticles({
-            page,
-            size: pageSize,
-        }));
     };
 
     const handleSelectPageSize = (size) => {
         setPageSize(size);
-        dispatch(actionsArticles.findArticles({
-            size,
-            page: currentPage,
-        }));
+    };
+
+    const handleSearchParamsChange = (params) => {
+        const newParams = Object.fromEntries(
+            Object.entries(params).filter(([key, value]) => value)
+        );
+        setCurrentPage(1);
+        setParams(newParams);
     };
 
     const {
@@ -40,11 +51,22 @@ function ArticleList() {
     } = useSelector(({ article }) => article);
 
     useEffect(() => {
-        dispatch(actionsArticles.findArticles());
-    }, []);
+        localStorage.setItem('currentPage', currentPage.toString());
+        localStorage.setItem('pageSize', pageSize.toString());
+        console.log(currentPage)
+        dispatch(actionsArticles.findArticles({
+            size: pageSize,
+            page: currentPage,
+            params,
+        }));
+    }, [currentPage, pageSize, params]);
 
     return (
         <>
+            <ArticleFilter
+                    params={params}
+                    onFilterChange={handleSearchParamsChange}
+            />
             {status === Status.PENDING ? (
                 <CircularProgress />
             ) : (

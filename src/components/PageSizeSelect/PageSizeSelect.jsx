@@ -8,7 +8,6 @@ import styles from './styles.module.css';
 function PageSizeSelect ({ pageSize = 10, onPageSizeChange}) {
 
     const handlePageSizeChanged = useCallback((event) => {
-        console.log(event.target.value)
         onPageSizeChange(event.target.value);
     }, [ onPageSizeChange ]);
     
