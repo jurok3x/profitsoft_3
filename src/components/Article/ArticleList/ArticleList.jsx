@@ -3,7 +3,7 @@ import Status from "app/constants/status";
 import CircularProgress from 'components/CircularProgress';
 import PageSizeSelect from 'components/PageSizeSelect';
 import Paginator from 'components/Paginator/Paginator';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
     useDispatch,
     useSelector,
@@ -47,22 +47,25 @@ function ArticleList() {
         });
     };
 
-    const handleSelectPageSize = (size) => {
+    const handleSelectPageSize = useCallback((size) => {
         localStorage.setItem('pageSize', size.toString());
+        localStorage.setItem('currentPage', '1');
         setParams({
             ...params,
             size,
             page: 1,
         });
-    };
+    }, [setParams]);
 
-    const handleFilterChange = (filter) => {
+    const handleFilterChange = useCallback((filter) => {
+        localStorage.setItem('currentPage', '1');
+        localStorage.setItem('pageSize', '10');
         setParams({
             ...filter,
             size: 10,
             page: 1
         });
-    };
+    }, [setParams]);
 
     const {
         articles,
@@ -71,7 +74,6 @@ function ArticleList() {
     } = useSelector(({ article }) => article);
 
     useEffect(() => {
-        console.log(JSON.stringify(params))
         dispatch(actionsArticles.findArticles(params));
     }, [params, dispatch]);
 

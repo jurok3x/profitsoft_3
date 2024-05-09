@@ -34,32 +34,34 @@ function ArticleFilter({ onFilterChange }) {
 
     const [title, setTitle] = useState(getFilterParameter('title'));
     const [year, setYear] = useState(getFilterParameter('year'));
+    const [activeYear, setActiveYear] = useState(getFilterParameter('year'));
     const [field, setField] = useState(getFilterParameter('field'));
 
     const handleTitleChange = useCallback((event) => {
-        const newTitle = event.target.value;
-        setTitle(newTitle);
-        localStorage.setItem('title', newTitle.toString());
-        onFilterChange({ title: newTitle, year, field});
-    }, [ onFilterChange, year, field ]);
+        const title = event.target.value;
+        setTitle(title);
+        localStorage.setItem('title', title);
+        onFilterChange({ title, field, year })
+    }, []);
 
     const handleFieldChange = useCallback((event) => {
-        const newField = event.target.value;
-        setField(newField);
-        localStorage.setItem('field', newField.toString());
-        onFilterChange({ title, year, field: newField});
-    }, [ onFilterChange, title, year ]);
+        const field = event.target.value;
+        setField(field);
+        localStorage.setItem('field', field);
+        onFilterChange({ title, field, year })
+    }, []);
 
     const handleYearBlur = useCallback((event) => {
-        const newYear = event.target.value;
-        localStorage.setItem('year', newYear.toString());
-        onFilterChange({ title, year: newYear, field });
-    }, [ onFilterChange, title, field ]);
+        const year = event.target.value;
+        setYear(year);
+        localStorage.setItem('year', year);
+        onFilterChange({ title, field, year })
+    }, []);
 
     const handleYearChange = useCallback((event) => {
-        const newYear = event.target.value;
-        setYear(newYear);
-    }, [ ]);
+        const activeYear = event.target.value;
+        setActiveYear(activeYear);
+    }, []);
 
     return (
         <Box
@@ -86,7 +88,7 @@ function ArticleFilter({ onFilterChange }) {
                 InputLabelProps={{
                     shrink: true,
                 }}
-                value={year}
+                value={activeYear}
                 onChange={handleYearChange}
                 onBlur={handleYearBlur}
                 size='small'
