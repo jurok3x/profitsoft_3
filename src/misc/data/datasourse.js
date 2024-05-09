@@ -60,26 +60,17 @@ class DataSource {
     }
 
     filterArticles = (params) => {
-        const filtered = this.articles.filter(article => {
-            for (const key in params) {
-                
-                if (params.hasOwnProperty(key)) {
-                    if (key === 'title' && article[key]) {
-                        if (!article[key].toLowerCase().includes(params[key].toLowerCase())) {
-                            return false;
-                        }
-                    } if (key === 'author' && article[key]) {
-                        return article[key].id === params.authorId;
-                    } else {
-                        if (article[key] !== params[key] && article[key]) {
-                            console.log(`${article[key]} and ${params[key]} `)
-                            return false;
-                        }
-                    }
-                }
-            }
-            return true;
-        });
+        let filtered = this.articles;
+        const { year, field, title } = params;
+        if(year) {
+            filtered = filtered.filter(article => article.year === parseInt(year, 10));
+        }
+        if(field) {
+            filtered = filtered.filter(article => article.field === field);
+        }
+        if(title) {
+            filtered = filtered.filter(article => article.title.toLowerCase().includes(title.toLowerCase()));
+        }
         return filtered;
     }
 

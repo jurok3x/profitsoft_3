@@ -3,20 +3,17 @@ import config from 'config';
 import { searchArticles } from 'misc/data/datasourse';
 import axios from 'misc/requests';
 
-const search = ({ page, size, params }) => {
+const search = (params) => {
+    const parameters = {
+        ...params,
+        page: params.page - 1,
+    }
+    console.log(JSON.stringify(params))
     const {
         ARTICLES_SERVICE,
     } = config;
-    return axios.post(`${ARTICLES_SERVICE}/_list`, {
-        ...params,
-        page: page - 1,
-        size,
-    }).catch(() => {
-        return searchArticles({
-            ...params,
-            page: page - 1,
-            size,
-        });
+    return axios.post(`${ARTICLES_SERVICE}/_list`, parameters).catch(() => {
+        return searchArticles(parameters);
     });
 };
 
@@ -38,9 +35,9 @@ const handleError = (error) => {
     };
 }
 
-const findArticles = ({ page = 1, size = 10, params } = {}) => (dispatch) => {
+const findArticles = (params) => (dispatch) => {
     dispatch(requestArticles());
-    search({ page, size, params })
+    search(params)
         .then((articles) => dispatch(receiveArticles(articles)))
         .catch((error) => dispatch(handleError(error)));
 };

@@ -32,6 +32,7 @@ function Card({
           : `${theme.spacing(2)}px 10px`,
         transition: 'all 0.2s ease-out',
         width: '100%',
+        boxSizing: 'border-box',
       }}
     >
       {children}
