@@ -6,7 +6,13 @@ class DataSource {
     }
 
     findArticleById(id) {
-        return this.articles.find(article => article.id === id);
+        const article = this.articles.find(article => article.id === id);
+        if(article) {
+            return article;
+        } else {
+            console.log(`throwing error`)
+            throw new Error("Article not found");
+        }
     }
 
     deleteArticleById(id) {

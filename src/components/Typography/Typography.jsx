@@ -1,5 +1,5 @@
-import React from 'react';
 import TypographyMUI from '@mui/material/Typography';
+import React from 'react';
 
 import useTheme from 'misc/hooks/useTheme';
 

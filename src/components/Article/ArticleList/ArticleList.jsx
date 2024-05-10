@@ -1,3 +1,4 @@
+import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
 import actionsArticles from 'app/actions/article';
 import Status from "app/constants/status";
 import CircularProgress from 'components/CircularProgress';
@@ -10,6 +11,7 @@ import {
 } from 'react-redux';
 import ArticleItem from '../ArticleItem/ArticleItem';
 
+import { Link } from '@mui/material';
 import ArticleFilter from '../ArticleFilter';
 import styles from '../style.module.css';
 
@@ -79,9 +81,12 @@ function ArticleList() {
 
     return (
         <>
-            <ArticleFilter
-                    onFilterChange={handleFilterChange}
-            />
+            <div className={styles.top}>
+                <Link underline="none" href={'/new'}><LibraryAddOutlinedIcon /></Link>
+                <ArticleFilter
+                        onFilterChange={handleFilterChange}
+                />
+            </div>
             {status === Status.PENDING ? (
                 <CircularProgress />
             ) : (
