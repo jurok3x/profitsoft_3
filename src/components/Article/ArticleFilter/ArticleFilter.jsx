@@ -69,6 +69,8 @@ function ArticleFilter({ onFilterChange }) {
             sx={{
                 '& .MuiTextField-root': { m: 1, width: '25ch' },
             }}
+            display="flex"
+            alignItems="center"
             noValidate
             autoComplete="off"
         >
@@ -97,7 +99,6 @@ function ArticleFilter({ onFilterChange }) {
                 id="select-field"
                 select
                 label="Field"
-                helperText="Select field of science"
                 size='small'
                 onChange={handleFieldChange}
                 value={field}
