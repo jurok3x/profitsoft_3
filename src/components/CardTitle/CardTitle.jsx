@@ -6,7 +6,6 @@ const getClasses = createUseStyles(theme => ({
   container: {
     fontSize: '2rem',
     fontWeight: '400',
-    cursor: 'pointer',
     alignItems: 'center',
     display: 'flex',
     gap: `${theme.spacing(2)}px`,
