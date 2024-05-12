@@ -10,7 +10,6 @@ class DataSource {
         if(article) {
             return article;
         } else {
-            console.log(`throwing error`)
             throw new Error("Article not found");
         }
     }
@@ -25,8 +24,18 @@ class DataSource {
         }
     }
 
-    createArticle(newArticle) {
+    createArticle(article) {
+        const newArticle = {
+            ...article,
+            author: {
+                "id":"00000000-0000-0000-0000-000000000001",
+                "firstName":"Admin",
+                "lastName":"Administrator",
+                "email":"admin@yahoo.com"
+            }
+        }
         this.articles.push(newArticle);
+        return newArticle;
     }
 
     updateArticleById(id, updatedArticle) {

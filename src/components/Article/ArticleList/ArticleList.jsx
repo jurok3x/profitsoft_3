@@ -12,37 +12,48 @@ import {
 import ArticleItem from '../ArticleItem/ArticleItem';
 
 import { Link } from '@mui/material';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ArticleFilter from '../ArticleFilter';
 import styles from '../style.module.css';
 
 function ArticleList() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
 
-    const getCurrentPage = () => {
-        const storedPage = localStorage.getItem('currentPage');
-        return storedPage ? parseInt(storedPage, 10) : 1;
-    };
-
-    const getPageSize = () => {
-        const storedPageSize = localStorage.getItem('pageSize');
-        return storedPageSize ? parseInt(storedPageSize, 10) : 10;
-    };
-
-    const getFilterParameter = (parameter) => {
-        const storedParameter = localStorage.getItem(parameter);
-        return storedParameter ? storedParameter : '';
+    const getQueryParam = (paramName) => {
+        const searchParams = new URLSearchParams(location.search);
+        const parameter = searchParams.get(paramName);
+        if(paramName === 'page') {
+            return parameter ? parseInt(parameter, 10) : 1;
+        }
+        if(paramName === 'size') {
+            return parameter ? parseInt(parameter, 10) : 10;
+        }
+        return parameter ? parameter : '';
     };
 
     const [params, setParams] = useState({
-        page: getCurrentPage(),
-        size: getPageSize(),
-        year: getFilterParameter('year'),
-        title: getFilterParameter('title'),
-        field: getFilterParameter('field'),
+        page: getQueryParam('page'),
+        size: getQueryParam('size'),
+        year: getQueryParam('year'),
+        title: getQueryParam('title'),
+        field: getQueryParam('field'),
     });
 
+    const updateLocation = useCallback((params) => {
+        const searchParams = new URLSearchParams(location.search);
+        for (const key in params) {
+            if (params[key]) {
+                searchParams.set(key, params[key]);
+            } else {
+                searchParams.delete(key);
+            }
+        }
+        navigate(`${location.pathname}?${searchParams.toString()}`);
+    }, [location.pathname, location.search, navigate]);
+
     const handleSelectPage = (page) => {
-        localStorage.setItem('currentPage', page.toString());
         setParams({
             ...params,
             page
@@ -50,18 +61,14 @@ function ArticleList() {
     };
 
     const handleSelectPageSize = useCallback((size) => {
-        localStorage.setItem('pageSize', size.toString());
-        localStorage.setItem('currentPage', '1');
         setParams({
             ...params,
             size,
             page: 1,
         });
-    }, [setParams]);
+    }, [params, setParams]);
 
     const handleFilterChange = useCallback((filter) => {
-        localStorage.setItem('currentPage', '1');
-        localStorage.setItem('pageSize', '10');
         setParams({
             ...filter,
             size: 10,
@@ -76,14 +83,16 @@ function ArticleList() {
     } = useSelector(({ article }) => article);
 
     useEffect(() => {
+        updateLocation(params);
         dispatch(actionsArticles.findArticles(params));
-    }, [params, dispatch]);
+    }, [updateLocation, params, dispatch]);
 
     return (
         <>
             <div className={styles.top}>
                 <Link underline="none" href={'/new'}><LibraryAddOutlinedIcon /></Link>
                 <ArticleFilter
+                        filter={params}
                         onFilterChange={handleFilterChange}
                 />
             </div>

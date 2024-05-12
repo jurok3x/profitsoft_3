@@ -1,5 +1,5 @@
 import actionsArticles from 'app/actions/article';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import ArticleCreate from './ArticleCreate';
@@ -33,6 +33,10 @@ function View() {
         setUpdate(false);
       }
   }, [dispatch, id]);
+
+  const saveArticle = useCallback((article) => {
+    dispatch(actionsArticles.save(article));
+  }, [])
 
   return (
     <>

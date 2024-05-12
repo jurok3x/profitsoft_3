@@ -1,12 +1,16 @@
 import ArticleActionTypes from 'app/constants/articleActionTypes';
 import config from 'config';
-import { findArticleById, searchArticles } from 'misc/data/datasourse';
+import { createArticle, deleteArticleById, findArticleById, searchArticles, updateArticleById } from 'misc/data/datasourse';
 import axios from 'misc/requests';
 
-const search = (params) => {
+const fetchArticles = (params) => {
+    const { year, title, field } = params;
     const parameters = {
         ...params,
         page: params.page - 1,
+        year: year ? year : null,
+        title: title ? title : null,
+        field: field ? field : null,
     }
     const {
         ARTICLES_SERVICE,
@@ -16,7 +20,34 @@ const search = (params) => {
     });
 };
 
-const getById = (id) => {
+const writeArticle = (article) => {
+    const {
+        ARTICLES_SERVICE,
+    } = config;
+    return axios.post(`${ARTICLES_SERVICE}`, article).catch(() => {
+        return createArticle(article);
+    });
+};
+
+const updateArticle = ({ article, id }) => {
+    const {
+        ARTICLES_SERVICE,
+    } = config;
+    return axios.put(`${ARTICLES_SERVICE}/${id}`, article).catch(() => {
+        return updateArticleById(id, article);
+    });
+};
+
+const deleteArticle = (id) => {
+    const {
+        ARTICLES_SERVICE,
+    } = config;
+    return axios.delete(`${ARTICLES_SERVICE}/${id}`).catch(() => {
+        return deleteArticleById(id);
+    });
+};
+
+const fetchArticleById = (id) => {
     const {
         ARTICLES_SERVICE,
     } = config;
@@ -39,7 +70,14 @@ const receiveArticle = (article) => {
     };
 }
 
-const requestArticles = () => ({
+const receiveSavedArticle = (article) => {
+    return {
+        payload: article,
+        type: ArticleActionTypes.ARTICLES_SAVE,
+    };
+}
+
+const articlesRequest = () => ({
     type: ArticleActionTypes.ARTICLES_REQUEST,
 });
 
@@ -51,22 +89,30 @@ const handleError = (error) => {
 }
 
 const findArticles = (params) => (dispatch) => {
-    dispatch(requestArticles());
-    search(params)
+    dispatch(articlesRequest());
+    fetchArticles(params)
         .then((articles) => dispatch(receiveArticles(articles)))
         .catch((error) => dispatch(handleError(error)));
 };
 
 const findById = (id) => (dispatch) => {
-    dispatch(requestArticles());
-    getById(id)
+    dispatch(articlesRequest());
+    fetchArticleById(id)
         .then((article) => dispatch(receiveArticle(article)))
+        .catch((error) => dispatch(handleError(error)));
+};
+
+const save = (article) => (dispatch) => {
+    dispatch(articlesRequest());
+    writeArticle(article)
+        .then((article) => dispatch(receiveSavedArticle(article)))
         .catch((error) => dispatch(handleError(error)));
 };
 
 const exportFunctions = {
     findArticles,
     findById,
+    save,
 };
 
 export default exportFunctions;
