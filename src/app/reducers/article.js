@@ -30,6 +30,16 @@ export default function Reducer(state = initialState, action) {
                 status: Status.SUCCESS
             }
         }
+        case ArticleActionTypes.ARTICLES_SAVE: {
+            const response = action.payload;
+            const { articles } = state;
+            const updatedArticles = [response, ... articles];
+            return {
+                ...state,
+                status: Status.SUCCESS
+            }
+        }
+
         case ArticleActionTypes.ARTICLES_REQUEST: {
             return {
                 ...state,

@@ -1,62 +1,33 @@
 
 import { Box, TextField } from '@mui/material';
-import MenuItem from 'components/MenuItem';
+import FieldCategories from 'components/Categories/FieldCategories';
 import React, { useCallback, useState } from 'react';
 
-const fields = [
-    {
-        value: '',
-        label: 'All',
-    },
-    {
-        value: 'BIOLOGY',
-        label: 'Biology',
-    },
-    {
-        value: 'MEDICINE',
-        label: 'Medicine',
-    },
-    {
-        value: 'PHYSICS',
-        label: 'Physics',
-    },
-    {
-        value: 'COMPUTER_SCIENCE',
-        label: 'Computer Science',
-    },
-];
+function ArticleFilter({ filter, onFilterChange }) {
+    const { year: filterYear, title: filterTitle, field: filterField} = filter;
 
-function ArticleFilter({ onFilterChange }) {
-    const getFilterParameter = (parameter) => {
-        const storedParameter = localStorage.getItem(parameter);
-        return storedParameter ? storedParameter : '';
-    };
-
-    const [title, setTitle] = useState(getFilterParameter('title'));
-    const [year, setYear] = useState(getFilterParameter('year'));
-    const [activeYear, setActiveYear] = useState(getFilterParameter('year'));
-    const [field, setField] = useState(getFilterParameter('field'));
+    const [title, setTitle] = useState(filterTitle);
+    const [year, setYear] = useState(filterYear);
+    const [activeYear, setActiveYear] = useState(filterYear);
+    const [field, setField] = useState(filterField);
 
     const handleTitleChange = useCallback((event) => {
         const title = event.target.value;
         setTitle(title);
-        localStorage.setItem('title', title);
         onFilterChange({ title, field, year })
-    }, []);
+    }, [onFilterChange, title, field, year]);
 
     const handleFieldChange = useCallback((event) => {
         const field = event.target.value;
         setField(field);
-        localStorage.setItem('field', field);
         onFilterChange({ title, field, year })
-    }, []);
+    }, [onFilterChange, title, field, year]);
 
     const handleYearBlur = useCallback((event) => {
         const year = event.target.value;
         setYear(year);
-        localStorage.setItem('year', year);
         onFilterChange({ title, field, year })
-    }, []);
+    }, [onFilterChange, title, field, year]);
 
     const handleYearChange = useCallback((event) => {
         const activeYear = event.target.value;
@@ -95,20 +66,10 @@ function ArticleFilter({ onFilterChange }) {
                 onBlur={handleYearBlur}
                 size='small'
             />
-            <TextField
-                id="select-field"
-                select
-                label="Field"
-                size='small'
-                onChange={handleFieldChange}
+            <FieldCategories
                 value={field}
-            >
-                {fields.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                    </MenuItem>
-                ))}
-            </TextField>
+                onFieldChange={handleFieldChange}
+            />
         </Box>
         );
     }

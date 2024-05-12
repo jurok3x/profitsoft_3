@@ -28,7 +28,7 @@ function ArticleView() {
                         {title}
                     </Typography>
                     <Typography variant='default' color='#000000'>
-                        {text}
+                        {text ? text : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, nobis voluptates suscipit atque in quod minus blanditiis fugiat eius error. Reiciendis eaque error harum odit. Provident aspernatur sunt aliquam tempore!"}
                     </Typography>
                     <div className={styles.view__info}>
                         <Typography variant='default' color='#000000'>
