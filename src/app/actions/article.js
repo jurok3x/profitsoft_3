@@ -38,13 +38,15 @@ const updateArticle = ({ article, id }) => {
     });
 };
 
-const deleteArticle = (id) => {
+const deleteArticle = async (id) => {
     const {
         ARTICLES_SERVICE,
     } = config;
-    return axios.delete(`${ARTICLES_SERVICE}/${id}`).catch(() => {
+    try {
+        return await axios.delete(`${ARTICLES_SERVICE}/${id}`);
+    } catch {
         return deleteArticleById(id);
-    });
+    }
 };
 
 const fetchArticleById = (id) => {
@@ -74,6 +76,13 @@ const receiveSavedArticle = (article) => {
     return {
         payload: article,
         type: ArticleActionTypes.ARTICLES_SAVE,
+    };
+}
+
+const receiveDeleteResponse = (article) => {
+    return {
+        payload: article,
+        type: ArticleActionTypes.ARTICLES_DELETE,
     };
 }
 
@@ -109,10 +118,18 @@ const save = (article) => (dispatch) => {
         .catch((error) => dispatch(handleError(error)));
 };
 
+const deleteById = (id) => (dispatch) => {
+    dispatch(articlesRequest());
+    deleteArticle(id)
+        .then((article) => dispatch(receiveDeleteResponse(article)))
+        .catch((error) => dispatch(handleError(error)));
+};
+
 const exportFunctions = {
     findArticles,
     findById,
     save,
+    deleteById,
 };
 
 export default exportFunctions;

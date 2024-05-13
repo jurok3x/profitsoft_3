@@ -12,6 +12,8 @@ const variants = {
 };
 
 function Card({
+  handleMouseEnter,
+  handleMouseLeave,
   customBackground,
   children,
   disablePaddings = false,
@@ -34,6 +36,8 @@ function Card({
         width: '100%',
         boxSizing: 'border-box',
       }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {children}
     </CardMUI>
