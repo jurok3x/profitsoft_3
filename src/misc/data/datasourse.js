@@ -18,7 +18,7 @@ class DataSource {
         const articleToDelete = this.findArticleById(id);
         if (articleToDelete) {
             this.articles = this.articles.filter(article => article.id !== id);
-            return "Article deleted";
+            return articleToDelete;
         } else {
             throw new Error("Article not found");
         }

@@ -32,12 +32,28 @@ export default function Reducer(state = initialState, action) {
         }
         case ArticleActionTypes.ARTICLES_SAVE: {
             const response = action.payload;
-            const { articles } = state;
-            const updatedArticles = [response, ... articles];
+            const { id, title, author, year } = response;
+            const article = {
+                id,
+                title,
+                year,
+                authorFullName:`${author?.firstName} ${author?.lastName}`
+            }
+            const updatedArticles = [article, ...state.articles];
             return {
                 ...state,
+                articles: updatedArticles,
                 status: Status.SUCCESS
             }
+        }
+        case ArticleActionTypes.ARTICLES_DELETE: {
+            const deletedArticle = action.payload;
+            const updatedArticles = state.articles.filter(article => article.id !== deletedArticle.id);
+            return {
+                ...state,
+                articles: updatedArticles,
+                status: Status.SUCCESS
+            };
         }
 
         case ArticleActionTypes.ARTICLES_REQUEST: {
