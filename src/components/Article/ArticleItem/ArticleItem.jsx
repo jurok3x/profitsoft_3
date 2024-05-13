@@ -3,6 +3,8 @@ import actionsArticles from 'app/actions/article';
 import Card from "components/Card";
 import CardContent from "components/CardContent";
 import CardTitle from "components/CardTitle";
+import toastr from 'toastr';
+import 'toastr/build/toastr.min.css';
 
 import { Button } from "@mui/material";
 import CardActions from "components/CardActions";
@@ -37,7 +39,8 @@ function ArticleItem({ article }) {
 
     const handleDelete = useCallback(() => {
         dispatch(actionsArticles.deleteById(id));
-        setDialogOpen(true);
+        toastr.success('Article deleted.')
+        setDialogOpen(false);
     }, [dispatch, id]);
 
     return (
