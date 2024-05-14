@@ -30,6 +30,10 @@ const fields = [
         value: 'MATHEMATICS',
         label: 'Mathematics',
     },
+    {
+        value: 'ASTRONOMY',
+        label: 'Astronomy',
+    },
 ];
 
 function FieldCategories({ value, onFieldChange, errors }) {

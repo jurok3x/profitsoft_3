@@ -39,7 +39,6 @@ const ArticleForm = ({ article={}, onSubmit, onCancel }) => {
             newErrors.field = 'Field is required';
         }
         if (Object.keys(newErrors).length === 0) {
-            console.log(`submitting...`)
             onSubmit(formData);
         } else {
             setErrors(newErrors);

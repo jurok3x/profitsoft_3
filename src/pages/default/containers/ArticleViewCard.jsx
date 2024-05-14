@@ -10,6 +10,9 @@ function ArticleViewCard({ article, onUpdateClick }) {
     const lastName = author ? author.lastName : '';
 
     const capitalizeFirstLetter = (text) => {
+        if(!text){
+            return '';
+        }
         return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
     }
 

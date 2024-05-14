@@ -49,6 +49,7 @@ class DataSource {
             }
             return article;
         });
+        return articleToUpdate;
     }
 
     searchArticles(params) {
