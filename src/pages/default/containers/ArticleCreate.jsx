@@ -13,11 +13,7 @@ function ArticleCreate() {
     }, [navigate]);
 
     const handleSave = useCallback((article) => {
-        const newArticle = {
-            ...article,
-            authorId:"f47ac10b-58cc-4372-a567-0e02b2c3d479"
-        };
-        dispatch(actionsArticles.save(newArticle));
+        dispatch(actionsArticles.save(article));
         navigate('/');
     }, [dispatch, navigate])
 

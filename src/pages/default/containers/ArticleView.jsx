@@ -38,6 +38,7 @@ function ArticleView() {
                         <ArticleUpdate
                             article={article}
                             onCancel={handleCancelClick}
+                            setUpdate={setUpdate}
                         /> :
                         <div>
                             <Button onClick={handleNavigateBack}>Go Back</Button>

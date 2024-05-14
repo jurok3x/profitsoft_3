@@ -4,13 +4,15 @@ import React, { useState } from "react";
 
 const ArticleForm = ({ article={}, onSubmit, onCancel }) => {
     const [errors, setErrors] = useState({});
-    const { title, text, year, field, journal } = article;
+    const { title, text, year, field, journal, author } = article;
+    const authorId = author?.id || null;
     const [formData, setFormData] = useState({
-        title: title || "",
-        text: text || "",
-        year: year || "",
-        field: field || "",
-        journal: journal || "",
+        title: title || '',
+        text: text || '',
+        year: year?.toString() || '',
+        field: field || '',
+        journal: journal || '',
+        authorId: authorId || 'f47ac10b-58cc-4372-a567-0e02b2c3d479'
     });
 
     const handleChange = (e) => {
@@ -37,6 +39,7 @@ const ArticleForm = ({ article={}, onSubmit, onCancel }) => {
             newErrors.field = 'Field is required';
         }
         if (Object.keys(newErrors).length === 0) {
+            console.log(`submitting...`)
             onSubmit(formData);
         } else {
             setErrors(newErrors);
