@@ -3,45 +3,43 @@ import config from 'config';
 import { createArticle, deleteArticleById, findArticleById, searchArticles, updateArticleById } from 'misc/data/datasourse';
 import axios from 'misc/requests';
 
-const fetchArticles = (params) => {
+const {
+    ARTICLES_SERVICE,
+} = config;
+
+const fetchArticles = async (params) => {
     const { year, title, field } = params;
     const parameters = {
         ...params,
-        page: params.page - 1,
-        year: year ? year : null,
-        title: title ? title : null,
-        field: field ? field : null,
+        page: params.page - 1,//BE has zero based paging
+        year: year || null,
+        title: title || null,
+        field: field || null,
     }
-    const {
-        ARTICLES_SERVICE,
-    } = config;
-    return axios.post(`${ARTICLES_SERVICE}/_list`, parameters).catch(() => {
+    try {
+        return await axios.post(`${ARTICLES_SERVICE}/_list`, parameters);
+    } catch {
         return searchArticles(parameters);
-    });
+    }
 };
 
-const writeArticle = (article) => {
-    const {
-        ARTICLES_SERVICE,
-    } = config;
-    return axios.post(`${ARTICLES_SERVICE}`, article).catch(() => {
+const writeArticle = async (article) => {
+    try {
+        return await axios.post(`${ARTICLES_SERVICE}`, article);
+    } catch {
         return createArticle(article);
-    });
+    }
 };
 
-const updateArticle = ({ article, id }) => {
-    const {
-        ARTICLES_SERVICE,
-    } = config;
-    return axios.put(`${ARTICLES_SERVICE}/${id}`, article).catch(() => {
+const updateArticle = async ({ id, article }) => {
+    try {
+        return await axios.put(`${ARTICLES_SERVICE}/${id}`, article);
+    } catch {
         return updateArticleById(id, article);
-    });
+    }
 };
 
 const deleteArticle = async (id) => {
-    const {
-        ARTICLES_SERVICE,
-    } = config;
     try {
         return await axios.delete(`${ARTICLES_SERVICE}/${id}`);
     } catch {
@@ -49,13 +47,12 @@ const deleteArticle = async (id) => {
     }
 };
 
-const fetchArticleById = (id) => {
-    const {
-        ARTICLES_SERVICE,
-    } = config;
-    return axios.get(`${ARTICLES_SERVICE}/${id}`).catch(() => {
+const fetchArticleById = async (id) => {
+    try {
+        return await axios.get(`${ARTICLES_SERVICE}/${id}`);
+    } catch {
         return findArticleById(id);
-    });
+    }
 };
 
 const receiveArticles = (articles) => {
@@ -76,6 +73,13 @@ const receiveSavedArticle = (article) => {
     return {
         payload: article,
         type: ArticleActionTypes.ARTICLES_SAVE,
+    };
+}
+
+const receiveUpdatedArticle = (article) => {
+    return {
+        payload: article,
+        type: ArticleActionTypes.ARTICLES_UPDATE,
     };
 }
 
@@ -125,10 +129,18 @@ const deleteById = (id) => (dispatch) => {
         .catch((error) => dispatch(handleError(error)));
 };
 
+const updateById = ({ id, article }) => (dispatch) => {
+    dispatch(articlesRequest());
+    updateArticle({ id, article })
+        .then((article) => dispatch(receiveUpdatedArticle(article)))
+        .catch((error) => dispatch(handleError(error)));
+};
+
 const exportFunctions = {
     findArticles,
     findById,
     save,
+    updateById,
     deleteById,
 };
 
