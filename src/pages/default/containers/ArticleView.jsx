@@ -1,50 +1,63 @@
-import { Paper } from '@mui/material';
+import { Button } from '@mui/material';
 import Status from 'app/constants/status';
 import Card from 'components/Card';
+import CardActions from 'components/CardActions';
+import CardTitle from 'components/CardTitle';
 import CircularProgress from 'components/CircularProgress';
-import Typography from 'components/Typography';
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
-import styles from './styles.module.css';
+import { useNavigate } from 'react-router-dom';
+import ArticleUpdate from './ArticleUpdate';
+import ArticleViewCard from './ArticleViewCard';
 
 function ArticleView() {
+    const navigate = useNavigate();
+    const [update, setUpdate] = useState(false);
+    const [article, setArticle] = useState({});
     const {
-        currentArticle: article,
+        currentArticle,
         status,
         errors,
     } = useSelector(({ article }) => article);
 
-    const { title, text, field, journal, year, author } = article;
-    const firstName = author ? author.firstName : undefined;
-    const lastName = author ? author.lastName : undefined;
+    useEffect(() => {
+        setArticle(currentArticle);
+    }, [currentArticle]);
+
+    const handleNavigateBack = useCallback(() => {
+        navigate(-1);
+    }, [navigate]);
+
+    const handleUpdateClick = useCallback(() => {
+        setUpdate(true);
+    }, []);
+
+    const handleCancelClick = useCallback(() => {
+        setUpdate(false);
+    }, []);
 
     return (
         <>
             {status === Status.PENDING && <CircularProgress />}
-            {status === Status.ERROR && <Card variant='error'>{errors.map(error => error.message)}</Card>}
+            {status === Status.ERROR && <Card variant='error'>
+                                            <CardTitle>{errors.map(error => error.message)}</CardTitle>
+                                            <CardActions><Button onClick={handleNavigateBack}>Go Back</Button></CardActions>
+                                        </Card>}
             {status === Status.SUCCESS && (
-                <Paper elevation={3} className={styles.view}>
-                    <Typography variant='title' color='#000000' align='center'>
-                        {title}
-                    </Typography>
-                    <Typography variant='default' color='#000000'>
-                        {text ? text : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, nobis voluptates suscipit atque in quod minus blanditiis fugiat eius error. Reiciendis eaque error harum odit. Provident aspernatur sunt aliquam tempore!"}
-                    </Typography>
-                    <div className={styles.view__info}>
-                        <Typography variant='default' color='#000000'>
-                            <span>Area:</span> {field}
-                        </Typography>
-                        <Typography variant='default' color='#000000'>
-                            <span>Published by:</span> {journal}
-                        </Typography>
-                        <Typography variant='default' color='#000000'>
-                            <span>Year:</span> {year}
-                        </Typography>
-                        <Typography variant='default' color='#000000'>
-                            <span>Author:</span> {firstName} {lastName}
-                        </Typography>
-                    </div>
-                </Paper>
+                update ?
+                        <ArticleUpdate
+                            article={article}
+                            onCancel={handleCancelClick}
+                            setUpdate={setUpdate}
+                        /> :
+                        <div>
+                            <Button onClick={handleNavigateBack}>Go Back</Button>
+                            <ArticleViewCard
+                                article={article}
+                                onUpdateClick={handleUpdateClick}
+                            />
+                        </div>
+                        
             )}
         </>
     );

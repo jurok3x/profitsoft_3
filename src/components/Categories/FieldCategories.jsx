@@ -22,6 +22,18 @@ const fields = [
         value: 'COMPUTER_SCIENCE',
         label: 'Computer Science',
     },
+    {
+        value: 'CHEMISTRY',
+        label: 'Chemistry',
+    },
+    {
+        value: 'MATHEMATICS',
+        label: 'Mathematics',
+    },
+    {
+        value: 'ASTRONOMY',
+        label: 'Astronomy',
+    },
 ];
 
 function FieldCategories({ value, onFieldChange, errors }) {

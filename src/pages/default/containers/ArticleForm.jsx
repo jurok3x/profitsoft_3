@@ -2,14 +2,17 @@ import { Button, Grid, TextField } from "@mui/material";
 import FieldCategories from "components/Categories/FieldCategories";
 import React, { useState } from "react";
 
-const AddArticleForm = ({ onSave }) => {
+const ArticleForm = ({ article={}, onSubmit, onCancel }) => {
     const [errors, setErrors] = useState({});
+    const { title, text, year, field, journal, author } = article;
+    const authorId = author?.id || null;
     const [formData, setFormData] = useState({
-        title: "",
-        text: "",
-        year: "",
-        field: "",
-        journal: "",
+        title: title || '',
+        text: text || '',
+        year: year?.toString() || '',
+        field: field || '',
+        journal: journal || '',
+        authorId: authorId || 'f47ac10b-58cc-4372-a567-0e02b2c3d479'
     });
 
     const handleChange = (e) => {
@@ -36,11 +39,15 @@ const AddArticleForm = ({ onSave }) => {
             newErrors.field = 'Field is required';
         }
         if (Object.keys(newErrors).length === 0) {
-            onSave(formData);
+            onSubmit(formData);
         } else {
             setErrors(newErrors);
         }
     };
+
+    const handleCancel = () => {
+        onCancel();
+    }
 
     return (
         <form onSubmit={handleSubmit}>
@@ -79,7 +86,7 @@ const AddArticleForm = ({ onSave }) => {
                         helperText={errors.year}
                     />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={6}>
                     <TextField
                         fullWidth
                         label="Journal"
@@ -97,9 +104,14 @@ const AddArticleForm = ({ onSave }) => {
                         errors={errors}
                     />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={1}>
                     <Button type="submit" variant="contained" color="primary">
-                        Add Article
+                        Save
+                    </Button>
+                </Grid>
+                <Grid item xs={1}>
+                    <Button variant="contained" color="error" onClick={handleCancel}>
+                        Cancel
                     </Button>
                 </Grid>
             </Grid>
@@ -107,4 +119,4 @@ const AddArticleForm = ({ onSave }) => {
         );
 };
 
-export default AddArticleForm;
+export default ArticleForm;

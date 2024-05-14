@@ -56,6 +56,19 @@ export default function Reducer(state = initialState, action) {
             };
         }
 
+        case ArticleActionTypes.ARTICLES_UPDATE: {
+            const updatedArticle = action.payload;
+            const updatedArticles = state.articles.map(article =>
+                article.id === updatedArticle.id ? updatedArticle : article
+            );
+            return {
+                ...state,
+                articles: updatedArticles,
+                currentArticle: updatedArticle,
+                status: Status.SUCCESS
+            };
+        }
+
         case ArticleActionTypes.ARTICLES_REQUEST: {
             return {
                 ...state,

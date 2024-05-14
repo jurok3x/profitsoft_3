@@ -1,6 +1,27 @@
-function ArticleUpdate() {
+import actionsArticles from 'app/actions/article';
+import { useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+import toastr from 'toastr';
+import 'toastr/build/toastr.min.css';
+import ArticleForm from "./ArticleForm";
+
+function ArticleUpdate({ article, setUpdate, onCancel }) {
+    const dispatch = useDispatch();
+    const { id } = useParams();
+
+    const handleUpdate = useCallback((article) => {
+        dispatch(actionsArticles.updateById({ id, article }))
+        toastr.success(`Article updated!`);
+        setUpdate(false);
+    }, [dispatch])
+
     return(
-        <h2>Update</h2>
+        <ArticleForm
+            onSubmit={handleUpdate}
+            article={article}
+            onCancel={onCancel}
+        />
     );
 }
 

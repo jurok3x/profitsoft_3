@@ -2,24 +2,25 @@ import actionsArticles from 'app/actions/article';
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import AddArticleForm from "./ArticleForm";
+import ArticleForm from "./ArticleForm";
 
 function ArticleCreate() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const handleCancelClick = useCallback(() => {
+        navigate(-1);
+    }, [navigate]);
+
     const handleSave = useCallback((article) => {
-        const newArticle = {
-            ...article,
-            authorId:"f47ac10b-58cc-4372-a567-0e02b2c3d479"
-        };
-        dispatch(actionsArticles.save(newArticle));
+        dispatch(actionsArticles.save(article));
         navigate('/');
-    }, [dispatch])
+    }, [dispatch, navigate])
 
     return(
-        <AddArticleForm
-            onSave={handleSave}
+        <ArticleForm
+            onSubmit={handleSave}
+            onCancel={handleCancelClick}
         />
     );
 }

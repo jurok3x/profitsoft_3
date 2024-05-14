@@ -18,6 +18,7 @@ const getClasses = createUseStyles((theme) => ({
     flexDirection: 'column',
     maxWidth: theme.pageContainer.content.width,
     width: '100%',
+    minHeight: '100vh',
   },
   contentContainer: {
     display: 'flex',
