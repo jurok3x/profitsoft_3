@@ -10,6 +10,15 @@
     font-weight: 600;
 }
 
+.view__title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.view__title p{
+    width: 100%;
+}
+
 .view__info {
     display: flex;
     justify-content: space-between;

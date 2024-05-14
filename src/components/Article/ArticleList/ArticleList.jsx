@@ -74,7 +74,7 @@ function ArticleList() {
             size: 10,
             page: 1
         });
-    }, [setParams]);
+    }, []);
 
     const {
         articles,

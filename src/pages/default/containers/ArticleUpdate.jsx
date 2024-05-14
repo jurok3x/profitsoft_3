@@ -1,6 +1,20 @@
-function ArticleUpdate() {
+import { useCallback } from "react";
+import toastr from 'toastr';
+import 'toastr/build/toastr.min.css';
+import ArticleForm from "./ArticleForm";
+
+function ArticleUpdate({ article, onCancel }) {
+
+    const handleUpdate = useCallback(() => {
+        toastr.success(`Article updated!`)
+    }, [])
+
     return(
-        <h2>Update</h2>
+        <ArticleForm
+            onSubmit={handleUpdate}
+            article={article}
+            onCancel={onCancel}
+        />
     );
 }
 
