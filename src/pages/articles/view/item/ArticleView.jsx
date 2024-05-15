@@ -7,7 +7,7 @@ import CircularProgress from 'components/CircularProgress';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import ArticleUpdate from './ArticleUpdate';
+import ArticleUpdate from '../update/ArticleUpdate';
 import ArticleViewCard from './ArticleViewCard';
 
 function ArticleView() {

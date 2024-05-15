@@ -2,7 +2,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Button, Paper } from "@mui/material";
 import Typography from "components/Typography";
 import { useCallback } from "react";
-import styles from './styles.module.css';
+import styles from '../../style.module.css';
 
 function ArticleViewCard({ article, onUpdateClick }) {
     const { title, text, field, journal, year, author } = article;

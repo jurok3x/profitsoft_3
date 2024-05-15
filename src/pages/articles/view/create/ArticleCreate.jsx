@@ -2,7 +2,7 @@ import actionsArticles from 'app/actions/article';
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import ArticleForm from "./ArticleForm";
+import ArticleForm from "../../form/ArticleForm";
 
 function ArticleCreate() {
     const dispatch = useDispatch();

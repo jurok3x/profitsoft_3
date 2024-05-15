@@ -9,12 +9,12 @@ import {
     useDispatch,
     useSelector,
 } from 'react-redux';
-import ArticleItem from '../ArticleItem/ArticleItem';
+import ArticleItem from './ArticleItem';
 
 import { Link } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
-import ArticleFilter from '../ArticleFilter';
 import styles from '../style.module.css';
+import ArticleFilter from './ArticleFilter';
 
 function ArticleList() {
     const dispatch = useDispatch();
