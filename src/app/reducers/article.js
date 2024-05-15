@@ -65,7 +65,7 @@ export default function Reducer(state = initialState, action) {
                 ...state,
                 articles: updatedArticles,
                 currentArticle: response,
-                status: Status.SUCCESS
+                status: Status.UPDATED
             };
         }
 
