@@ -1,6 +1,6 @@
 
 import { Box, TextField } from '@mui/material';
-import FieldCategories from 'components/Categories/FieldCategories';
+import FieldCategories from 'pages/articles/form/FieldCategories';
 import React, { useCallback, useState } from 'react';
 
 function ArticleFilter({ filter, onFilterChange }) {

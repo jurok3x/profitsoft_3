@@ -1,6 +1,6 @@
 import { Button, Grid, TextField } from "@mui/material";
-import FieldCategories from "components/Categories/FieldCategories";
 import React, { useState } from "react";
+import FieldCategories from "./FieldCategories";
 
 const ArticleForm = ({ article={}, onSubmit, onCancel }) => {
     const [errors, setErrors] = useState({});

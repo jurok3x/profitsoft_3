@@ -34,6 +34,30 @@ const fields = [
         value: 'ASTRONOMY',
         label: 'Astronomy',
     },
+    {
+        value: 'ENGINEERING',
+        label: 'Engineering',
+    },
+    {
+        value: 'HISTORY',
+        label: 'History',
+    },
+    {
+        value: 'ECONOMICS',
+        label: 'Economics',
+    },
+    {
+        value: 'PSYCHOLOGY',
+        label: 'Psychology',
+    },
+    {
+        value: 'LINGUISTICS',
+        label: 'Linguistics',
+    },
+    {
+        value: 'LITERATURE',
+        label: 'Literature',
+    },
 ];
 
 function FieldCategories({ value, onFieldChange, errors }) {

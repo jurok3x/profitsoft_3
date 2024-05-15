@@ -3,17 +3,15 @@ import actionsArticles from 'app/actions/article';
 import Card from "components/Card";
 import CardContent from "components/CardContent";
 import CardTitle from "components/CardTitle";
-import toastr from 'toastr';
-import 'toastr/build/toastr.min.css';
 
 import { Button } from "@mui/material";
 import CardActions from "components/CardActions";
 import Link from "components/Link";
 import { useCallback, useState } from "react";
 
-import DeleteDialog from 'components/DeleteDialog';
 import { useDispatch } from 'react-redux';
 import styles from '../style.module.css';
+import DeleteDialog from './DeleteDialog';
 
 function ArticleItem({ article }) {
     const dispatch = useDispatch();
@@ -39,7 +37,7 @@ function ArticleItem({ article }) {
 
     const handleDelete = useCallback(() => {
         dispatch(actionsArticles.deleteById(id));
-        toastr.success('Article deleted.')
+        //toastr.success('Article deleted.')
         setDialogOpen(false);
     }, [dispatch, id]);
 

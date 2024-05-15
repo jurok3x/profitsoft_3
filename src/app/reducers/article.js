@@ -47,25 +47,25 @@ export default function Reducer(state = initialState, action) {
             }
         }
         case ArticleActionTypes.ARTICLES_DELETE: {
-            const deletedArticle = action.payload;
-            const updatedArticles = state.articles.filter(article => article.id !== deletedArticle.id);
+            const response = action.payload;
+            const updatedArticles = state.articles.filter(article => article.id !== response.id);
             return {
                 ...state,
                 articles: updatedArticles,
-                status: Status.SUCCESS
+                status: Status.NO_DATA
             };
         }
 
         case ArticleActionTypes.ARTICLES_UPDATE: {
-            const updatedArticle = action.payload;
+            const response = action.payload;
             const updatedArticles = state.articles.map(article =>
-                article.id === updatedArticle.id ? updatedArticle : article
+                article.id === response.id ? response : article
             );
             return {
                 ...state,
                 articles: updatedArticles,
-                currentArticle: updatedArticle,
-                status: Status.SUCCESS
+                currentArticle: response,
+                status: Status.UPDATED
             };
         }
 
