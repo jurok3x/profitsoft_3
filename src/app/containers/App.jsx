@@ -20,8 +20,8 @@ import {
   Routes,
 } from 'react-router-dom';
 
-import ArticleList from 'components/Article/ArticleList';
-import View from 'pages/default/containers/View';
+import ArticleList from 'pages/articles/list/ArticleList';
+import View from 'pages/articles/view/View';
 import actionsUser from '../actions/user';
 import Header from '../components/Header';
 import IntlProvider from '../components/IntlProvider';

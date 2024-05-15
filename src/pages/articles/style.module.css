@@ -1,3 +1,18 @@
+.page__select {
+    display: flex;
+    justify-content: space-around;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.delete__button {
+    padding: 0;
+}
+
 .view {
     display: flex;
     flex-direction: column;

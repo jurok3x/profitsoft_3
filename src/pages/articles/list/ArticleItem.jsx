@@ -11,9 +11,9 @@ import CardActions from "components/CardActions";
 import Link from "components/Link";
 import { useCallback, useState } from "react";
 
-import DeleteDialog from 'components/DeleteDialog';
 import { useDispatch } from 'react-redux';
 import styles from '../style.module.css';
+import DeleteDialog from './DeleteDialog';
 
 function ArticleItem({ article }) {
     const dispatch = useDispatch();

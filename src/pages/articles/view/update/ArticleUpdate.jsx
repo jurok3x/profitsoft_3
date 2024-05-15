@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import toastr from 'toastr';
 import 'toastr/build/toastr.min.css';
-import ArticleForm from "./ArticleForm";
+import ArticleForm from "../../form/ArticleForm";
 
 function ArticleUpdate({ article, setUpdate, onCancel }) {
     const dispatch = useDispatch();
@@ -14,7 +14,7 @@ function ArticleUpdate({ article, setUpdate, onCancel }) {
         dispatch(actionsArticles.updateById({ id, article }))
         toastr.success(`Article updated!`);
         setUpdate(false);
-    }, [dispatch])
+    }, [dispatch, setUpdate, id])
 
     return(
         <ArticleForm
