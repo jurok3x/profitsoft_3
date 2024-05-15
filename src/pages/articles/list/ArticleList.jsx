@@ -9,6 +9,8 @@ import {
     useDispatch,
     useSelector,
 } from 'react-redux';
+import toastr from 'toastr';
+import 'toastr/build/toastr.min.css';
 import ArticleItem from './ArticleItem';
 
 import { Link } from '@mui/material';
@@ -79,6 +81,7 @@ function ArticleList() {
     const {
         articles,
         status,
+        errors,
         totalPages,
     } = useSelector(({ article }) => article);
 
@@ -86,6 +89,14 @@ function ArticleList() {
         updateLocation(params);
         dispatch(actionsArticles.findArticles(params));
     }, [updateLocation, params, dispatch]);
+
+    useEffect(() => {
+        if (status === Status.NO_DATA) {
+            toastr.success('Article deleted.');
+        } else if (status === Status.ERROR) {
+            toastr.error('Failed to delete the article.', errors[0].message || 'An error occurred.');
+        }
+    }, [status, errors]);
 
     return (
         <>

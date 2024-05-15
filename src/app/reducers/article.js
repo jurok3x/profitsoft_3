@@ -52,7 +52,7 @@ export default function Reducer(state = initialState, action) {
             return {
                 ...state,
                 articles: updatedArticles,
-                status: Status.SUCCESS
+                status: Status.NO_DATA
             };
         }
 
