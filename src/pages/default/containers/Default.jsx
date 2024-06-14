@@ -1,14 +1,9 @@
-import { useIntl } from 'react-intl';
+import ArticleList from 'components/Article/ArticleList';
 import React from 'react';
-import Typography from 'components/Typography';
 
 function Default() {
-  const { formatMessage } = useIntl();
-
   return (
-    <Typography>
-      {formatMessage({ id: 'title' })}
-    </Typography>
+    <ArticleList />
   );
 }
 

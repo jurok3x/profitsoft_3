@@ -201,7 +201,7 @@ const theme = {
       },
       title: {
         fontFamily: 'sans-serif',
-        fontSize: '20px',
+        fontSize: '36px',
         fontWeight: 400,
         letterSpacing: '0.03333em',
         lineHeight: 1.3,

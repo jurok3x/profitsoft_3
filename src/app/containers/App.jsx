@@ -1,25 +1,27 @@
-import React, {useEffect, useState} from 'react';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-} from 'react-router-dom';
+import Loading from 'components/Loading';
+import * as pages from 'constants/pages';
+import pageURLs from 'constants/pagesURLs';
+import AuthoritiesProvider from 'misc/providers/AuthoritiesProvider';
+import ThemeProvider from 'misc/providers/ThemeProvider';
+import UserProvider from 'misc/providers/UserProvider';
+import { addAxiosInterceptors } from 'misc/requests';
+import DefaultPage from 'pageProviders/Default';
+import LoginPage from 'pageProviders/Login';
+import SecretPage from 'pageProviders/Secret';
+import PageContainer from 'pageProviders/components/PageContainer';
+import React, { useEffect, useState } from 'react';
 import {
   useDispatch,
   useSelector,
 } from 'react-redux';
-import { addAxiosInterceptors } from 'misc/requests';
-import * as pages from 'constants/pages';
-import AuthoritiesProvider from 'misc/providers/AuthoritiesProvider';
-import DefaultPage from 'pageProviders/Default';
-import Loading from 'components/Loading';
-import LoginPage from 'pageProviders/Login';
-import PageContainer from 'pageProviders/components/PageContainer';
-import pageURLs from 'constants/pagesURLs';
-import SecretPage from 'pageProviders/Secret';
-import ThemeProvider from 'misc/providers/ThemeProvider';
-import UserProvider from 'misc/providers/UserProvider';
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+} from 'react-router-dom';
 
+import ArticleList from 'pages/articles/list/ArticleList';
+import View from 'pages/articles/view/View';
 import actionsUser from '../actions/user';
 import Header from '../components/Header';
 import IntlProvider from '../components/IntlProvider';
@@ -72,8 +74,18 @@ function App() {
                 {!isFetchingUser && (
                   <Routes>
                     <Route
-                      element={<DefaultPage />}
+                      element={
+                      <DefaultPage>
+                        <ArticleList />
+                      </DefaultPage>}
                       path={`${pageURLs[pages.defaultPage]}`}
+                    />
+                    <Route
+                      element={
+                      <DefaultPage>
+                        <View />
+                      </DefaultPage>}
+                      path={`${pageURLs[pages.view]}`}
                     />
                     <Route
                       element={<SecretPage />}

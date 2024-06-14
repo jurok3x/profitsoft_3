@@ -1,9 +1,11 @@
-import { createUseStyles } from 'react-jss';
-import React from 'react';
 import useTheme from 'misc/hooks/useTheme';
+import React from 'react';
+import { createUseStyles } from 'react-jss';
 
 const getClasses = createUseStyles(theme => ({
   container: {
+    fontSize: '2rem',
+    fontWeight: '400',
     alignItems: 'center',
     display: 'flex',
     gap: `${theme.spacing(2)}px`,
