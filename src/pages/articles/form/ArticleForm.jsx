@@ -1,9 +1,11 @@
 import { Button, Grid, TextField } from "@mui/material";
+import useUser from "misc/hooks/useUser";
 import React, { useState } from "react";
 import FieldCategories from "./FieldCategories";
 
 const ArticleForm = ({ article={}, onSubmit, onCancel }) => {
     const [errors, setErrors] = useState({});
+    const user = useUser();
     const { title, text, year, field, journal, author } = article;
     const authorId = author?.id || null;
     const [formData, setFormData] = useState({
@@ -12,7 +14,7 @@ const ArticleForm = ({ article={}, onSubmit, onCancel }) => {
         year: year?.toString() || '',
         field: field || '',
         journal: journal || '',
-        authorId: authorId || 'f47ac10b-58cc-4372-a567-0e02b2c3d479'
+        authorId: authorId || user.id
     });
 
     const handleChange = (e) => {
